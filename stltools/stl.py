@@ -227,6 +227,17 @@ def _parsebinary(m, encoding):
     if b'facet normal' in data:
         return None, None
     name, _ = struct.unpack("<80sI", data[0:84])
+        if b'COLOR' in data:
+        date = datetime.datetime.now()
+        name = b' '.join(
+            [b'Unknown Binary STL',
+             b'Processed: (',
+             bytes(date.month),
+             bytes(date.day),
+             bytes(date.year),
+             b')',
+             b'\n']
+        )
     name = name.decode(encoding)
     name = name.replace("solid ", "")
     name = name.strip('\x00 \t\n\r')
